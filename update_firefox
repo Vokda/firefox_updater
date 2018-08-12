@@ -1,0 +1,13 @@
+#!/bin/bash -x
+
+firefox_bz2='firefox-*.tar.bz2'
+firefox_tar='firefox-*.tar'
+
+bunzip2 $firefox_bz2
+tar xf $firefox_tar 
+sudo cp -rT ~/Downloads/firefox/firefox /opt/firefox || exit $?
+sudo chown -R root:root /opt/firefox/firefox || exit $?
+#always run if previous commands were successful
+rm -rf ~/Downloads/firefox/firefox 
+rm firefox-*
+exit 0
