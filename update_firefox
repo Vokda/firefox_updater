@@ -10,6 +10,6 @@ sudo cp -rt $(pwd) /opt/firefox || exit $?
 sudo chown -R root:root /opt/firefox/firefox || exit $?
 
 #always run if previous commands were successful
-rm -rf $(pwd)/firefox  #remove unpacked firefox
+sudo rm -rf $(pwd)/firefox  #remove unpacked firefox
 rm firefox-* #remove tarballs
 exit 0
