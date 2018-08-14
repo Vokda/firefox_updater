@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 firefox_bz2='firefox-*.tar.bz2'
 firefox_tar='firefox-*.tar'
@@ -6,10 +6,10 @@ firefox_tar='firefox-*.tar'
 
 bunzip2 $firefox_bz2
 tar xf $firefox_tar 
-sudo cp -rt $(pwd) /opt/firefox || exit $?
+sudo cp -rt /opt/firefox $(pwd)/firefox/* || exit $?
 sudo chown -R root:root /opt/firefox/firefox || exit $?
 
 #always run if previous commands were successful
 sudo rm -rf $(pwd)/firefox  #remove unpacked firefox
-rm firefox-* #remove tarballs
+rm -f firefox-* #remove tarballs
 exit 0
