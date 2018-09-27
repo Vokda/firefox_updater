@@ -1,15 +1,21 @@
 #!/bin/bash
 
+echo "Updating..."
 firefox_bz2='firefox-*.tar.bz2'
 firefox_tar='firefox-*.tar'
 
 
-bunzip2 $firefox_bz2
-tar xf $firefox_tar 
+echo 'unpacking firefox'
+bunzip2 $firefox_bz2 || exit $?
+tar xf $firefox_tar  || exit $?
+echo 'copying files'
 sudo cp -rt /opt/firefox $(pwd)/firefox/* || exit $?
+echo 'changing file ownership'
 sudo chown -R root:root /opt/firefox/firefox || exit $?
 
+echo 'removing temporary files'
 #always run if previous commands were successful
 sudo rm -rf $(pwd)/firefox  #remove unpacked firefox
 rm -f firefox-* #remove tarballs
+echo "Updating completed!"
 exit 0
