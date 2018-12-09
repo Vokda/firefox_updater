@@ -4,10 +4,16 @@ echo "Updating..."
 firefox_bz2='firefox-*.tar.bz2'
 firefox_tar='firefox-*.tar'
 
+if [ -f $firefox_bz2 ] ; 
+then
+	echo 'Unpacking firefox...'
+	bunzip2 $firefox_bz2 || exit $?
+	tar xf $firefox_tar  || exit $?
+	echo 'Done!'
+else
+	echo 'Firefox already unpacked.'
+fi
 
-echo 'unpacking firefox'
-bunzip2 $firefox_bz2 || exit $?
-tar xf $firefox_tar  || exit $?
 echo 'copying files'
 sudo cp -rt /opt/firefox $(pwd)/firefox/* || exit $?
 echo 'changing file ownership'
