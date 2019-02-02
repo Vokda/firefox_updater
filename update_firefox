@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# check if firefox is already running. 
+if pgrep -x "firefox-bin" > /dev/null
+then
+	echo 'Firefox is already running, cannot update!'
+	exit 1
+fi
+
 echo "Updating..."
 firefox_bz2='firefox-*.tar.bz2'
 firefox_tar='firefox-*.tar'
