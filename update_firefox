@@ -3,23 +3,17 @@
 # check if firefox is already running. 
 if pgrep -x "firefox-bin" > /dev/null
 then
-	echo 'Firefox is already running, cannot update!'
+	echo 'Firefox is already running. Please exit Firefox in order to update it.'
 	exit 1
 fi
 
 echo "Updating..."
-firefox_bz2='firefox-*.tar.bz2'
-firefox_tar='firefox-*.tar'
 
-if [ -f $firefox_bz2 ] ; 
-then
-	echo 'Unpacking firefox...'
-	bunzip2 $firefox_bz2 || exit $?
-	tar xf $firefox_tar  || exit $?
-	echo 'Done!'
-else
-	echo 'Firefox already unpacked.'
-fi
+lv=$(./latest_version.pl $(ls firefox*))
+
+echo 'unpacking firefox'
+bunzip2 $lv || exit $?
+tar xf $lv  || exit $?
 
 echo 'copying files'
 sudo cp -rt /opt/firefox $(pwd)/firefox/* || exit $?
@@ -27,8 +21,8 @@ echo 'changing file ownership'
 sudo chown -R root:root /opt/firefox/firefox || exit $?
 
 echo 'removing temporary files'
-#always run if previous commands were successful
-sudo rm -rf $(pwd)/firefox  #remove unpacked firefox
-rm -f firefox-* #remove tarballs
+# always run if previous commands were successful
+sudo rm -rf $(pwd)/firefox  # remove unpacked firefox
+rm -f firefox-* # remove tarballs
 echo "Updating completed!"
 exit 0
