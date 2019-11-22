@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 # check if firefox is already running. 
 if pgrep -x "firefox-bin" > /dev/null
@@ -10,10 +10,17 @@ fi
 echo "Updating..."
 
 lv=$(./latest_version.pl $(ls firefox*))
+file_type=$(file $lv)
 
 echo 'unpacking firefox'
-bunzip2 $lv || exit $?
-tar xf $lv  || exit $?
+if [[ $file_type =~ "bzip2" ]];
+then
+	bunzip2 $lv || exit $? # should result in a tar file
+# only unpack if the directory firefox does not already exist
+elif [[ $file_type =~ "tar" ]];
+then
+	tar xf $lv  || exit $? # should result in a directory called 'firefox'
+fi
 
 echo 'copying files'
 sudo cp -rt /opt/firefox $(pwd)/firefox/* || exit $?
