@@ -9,15 +9,17 @@ fi
 
 echo "Updating..."
 
-lv=$(./latest_version.pl $(ls firefox*))
+lv=$(./latest_version.pl $(ls firefox*)) 
 file_type=$(file $lv)
+echo "latest version found: $lv"
 
-echo 'unpacking firefox'
+echo "unpacking $lv"
 if [[ $file_type =~ "bzip2" ]];
 then
 	bunzip2 $lv || exit $? # should result in a tar file
+fi
 # only unpack if the directory firefox does not already exist
-elif [[ $file_type =~ "tar" ]];
+if [[ $file_type =~ "tar" ]];
 then
 	tar xf $lv  || exit $? # should result in a directory called 'firefox'
 fi
