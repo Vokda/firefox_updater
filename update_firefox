@@ -7,22 +7,20 @@ then
 	exit 1
 fi
 
+if [ ! -e  firefox-*.tar.bz2 ] 
+then
+	echo "No firefox tar ball found, downloading latest Firefox..."
+	wget --content-disposition "https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US"
+	echo "Done!"
+fi
+
 echo "Updating..."
 
 lv=$(./latest_version.pl $(ls firefox*)) 
-file_type=$(file $lv)
 echo "latest version found: $lv"
 
 echo "unpacking $lv"
-if [[ $file_type =~ "bzip2" ]];
-then
-	bunzip2 $lv || exit $? # should result in a tar file
-fi
-# only unpack if the directory firefox does not already exist
-if [[ $file_type =~ "tar" ]];
-then
-	tar xf $lv  || exit $? # should result in a directory called 'firefox'
-fi
+	tar jxf $lv  || exit $? # should result in a directory called 'firefox'
 
 echo 'copying files'
 sudo cp -rt /opt/firefox $(pwd)/firefox/* || exit $?
