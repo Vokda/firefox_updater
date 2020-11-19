@@ -16,7 +16,7 @@ fi
 
 echo "Updating..."
 
-lv=$(./latest_version.pl $(ls firefox*)) 
+lv=$(./latest_version.pl $(ls firefox-*)) 
 echo "latest version found: $lv"
 
 echo "unpacking $lv"
