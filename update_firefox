@@ -20,7 +20,7 @@ lv=$(./latest_version.pl $(ls firefox-*))
 echo "latest version found: $lv"
 
 echo "unpacking $lv"
-	tar jxf $lv  || exit $? # should result in a directory called 'firefox'
+	tar Jxf $lv  || exit $? # should result in a directory called 'firefox'
 
 echo 'copying files'
 sudo cp -rt /opt/firefox $(pwd)/firefox/* || exit $?
